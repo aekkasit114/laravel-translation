@@ -199,8 +199,9 @@ class File extends Translation implements DriverInterface
 
                 return ["{$vendor}::{$group->getBasename('.php')}" => new Collection(Arr::dot($this->disk->getRequire($group->getPathname())))];
             }
-
-            return [$group->getBasename('.php') => new Collection(Arr::dot($this->disk->getRequire($group->getPathname())))];
+            
+            $nameWithPath = str_replace(['/var/www/resources/lang/'.$language.'/', '.php'], "",$file->getPathname());
+            return [ $nameWithPath => new Collection(Arr::dot($this->disk->getRequire($group->getPathname())))];
         });
     }
 
@@ -338,7 +339,7 @@ class File extends Translation implements DriverInterface
                 return "{$vendor}::{$file->getBasename('.php')}";
             }
 
-            return $file->getBasename('.php');
+            return str_replace(['/var/www/resources/lang/'.$language.'/', '.php'], "",$file->getPathname());
         });
     }
 
